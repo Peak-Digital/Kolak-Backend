@@ -3,20 +3,27 @@ import json
 import random
 from aylien_news_api.rest import ApiException
 
+#These topics are intended to match articles involving current issues
 search_topics = ["trump", "gun control", "abortion", "LGBT", "immigration",
                "taxes", "politics", "religion", "hillary", "ACLU", 
                "climate change", "global warming", "death penalty",
                "gay marriage", "minimum wage", "democrats", "republicans",
-               "border", "oil", "foreign aid", "prison", "drugs", "Terrorism"]
+               "border", "oil", "foreign aid", "prison", "drugs", 
+               "Mizzou", "Computer Science", "Microsoft", "Christmas",
+               "Rick and Morty", "Rick & Morty", "szechuan", "szechuan sauce",
+               "McDonalds", "McNuggets", "Hacking", "Equifax", "Hurricane",
+               "Voters", "Apple", "Trade Deal", "Sanctions", "Headphone"
+               ]
 
 proper_sources = ['The New York Times', 'Wall Street Journal', 'BBC', 
                   'The New Yorker' , 'Politico', 'Oxford University Press',
                   'Washington Examiner', 'Boston Herald', 'The Guardian',
                   'The Washington Post', 'The Hill', 
-                  'Newsweek', 'Business Insider', 'Cornell Daily Sun'
+                  'Newsweek', 'Business Insider', 'Cornell Daily Sun',
+                  'Reuters'
                  ]
 
-ban_sources = ['The Onion', 'Liverpool Echo', 'Associated Press', 
+ban_sources = ['The Onion', 'Liverpool Echo', 'Associated Press', #We exclude AP because their links are broken
                'The Star - Toronto', 'Daily Mail UK' , 'Daily Mail'
         ]
 
@@ -105,6 +112,7 @@ class AylienAccessor:
 
                 response['summary'] = retStr
 
+                
                 response['reduced'] = (100 - (((float)(len(retStr.split())) / len(storyObj.body)) * 100))
 
                 for content in storyObj.media:  #get first image from media
@@ -134,7 +142,7 @@ class AylienAccessor:
 
                 response['summary'] = retStr
 
-                response['reduced'] = (100 - (((float)(len(retStr.split())) // len(storyObj.body)) * 100))
+                response['reduced'] = (100 - (((float)(len(retStr.split())) / len(storyObj.body)) * 100))
 
                 for content in storyObj.media:  #get first image from media
                     if content.type == "image" and "logo" not in content.url:
