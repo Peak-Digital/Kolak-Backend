@@ -1,0 +1,3 @@
+falcon
+aylien_news_api
+gunicorn
